@@ -5,6 +5,12 @@ struct User {
     sign_in_count: u64
 }
 
+// enum
+enum IpAddrKind {
+    V4,
+    V6
+}
+
 fn main() {
     let mut user1 = User {
         active: true,
