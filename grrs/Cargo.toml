@@ -2,6 +2,14 @@
 name = "grrs"
 version = "0.1.0"
 edition = "2021"
+authors = ["Michael Ojekunle <amdgtb001@gmail.com>"]
+license = "MIT"
+description = "A tool to search files"
+readme = "README.md"
+homepage = "https://github.com/michojekunle/rust-learn/tree/main/grrs"
+repository = "https://github.com/michojekunle/rust-learn/tree/main/grrs"
+keywords = ["cli", "search", "demo"]
+categories = ["command-line-utilities"]
 
 [dependencies]
 clap = { version = "4.0", features = ["derive"] }
