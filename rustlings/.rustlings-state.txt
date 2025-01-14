@@ -25,3 +25,11 @@ vecs1
 vecs2
 move_semantics1
 move_semantics2
+structs1
+enums1
+enums2
+strings1
+strings2
+lifetimes1
+lifetimes2
+lifetimes3
