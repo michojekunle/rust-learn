@@ -1,5 +1,3 @@
-use std::string;
-
 // Calls of this function should be replaced with calls of `string_slice` or `string`.
 fn placeholder() {}
 

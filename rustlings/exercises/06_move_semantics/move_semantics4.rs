@@ -11,8 +11,8 @@ mod tests {
         let mut x = Vec::new();
         let y = &x;
         let z = &x;
-        y.push(42);
-        z.push(13);
+        x.push(42);
+        x.push(13);
         assert_eq!(x, [42, 13]);
     }
 }

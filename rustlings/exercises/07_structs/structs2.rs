@@ -37,6 +37,7 @@ mod tests {
         let mut your_order = create_order_template();
 
         your_order.name = String::from("Hacker in Rust");
+        your_order.count = 1;
 
         assert_eq!(your_order.name, "Hacker in Rust");
         assert_eq!(your_order.year, order_template.year);
