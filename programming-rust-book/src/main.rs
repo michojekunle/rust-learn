@@ -7,7 +7,7 @@ fn gcd(mut m: u64, mut n: u64) -> u64 {
     while n != 0 {
         if n < m {
             let t = n;
-            n= m;
+            n = m;
             m = t;
         }
         n = n % m;
