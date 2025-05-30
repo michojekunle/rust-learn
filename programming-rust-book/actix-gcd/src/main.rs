@@ -51,10 +51,12 @@ async fn get_index() -> impl Responder {
 
 #[post("/gcd")]
 async fn post_gcd() -> impl Responder {
-    let params: GcdParameters = web::Json::from_request().await.unwrap();
-    if params.n == 0 || params.m == 0 {
-        return HttpResponse::BadRequest().content_type("text/html").body("Both numbers must be positive integers.");
-    }
-    let gcd = gcd(params.n, params.m);
-    HttpResponse::Ok().body(format!("GCD of {} and {} is {}", params.n, params.m, gcd))
+    let params = web::Json::from_request().await.unwrap();
+    println!("Received parameters: n = {}, m = {}, {}", 0, 1, params);
+    // if params.n == 0 || params.m == 0 {
+    //     return HttpResponse::BadRequest().content_type("text/html").body("Both numbers must be positive integers.");
+    // }
+    // let gcd = gcd(params.n, params.m);
+    // HttpResponse::Ok().body(format!("GCD of {} and {} is {}", params.n, params.m, gcd))
+    todo!("Implement GCD calculation and response");
 }
