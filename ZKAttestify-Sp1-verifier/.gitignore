@@ -1,0 +1,16 @@
+# build target
+target
+
+# generated package
+pkg
+
+# elfs
+elfs
+elf
+
+# env
+.env
+
+llvm.sh
+
+.DS_Store
