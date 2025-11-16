@@ -8,6 +8,5 @@ fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }
 
-fn main() {
-    
-}
+
+// #[no_mangle]
