@@ -3,10 +3,17 @@ name = "blog_os"
 version = "0.1.0"
 edition = "2024"
 
+# The profile used for cargo build
 [profile.dev]
-panic = 'abort'
+panic = 'abort' # diable stack unwinding on panic
 
+# The profile used for cargo build --release
 [profile.release]
-panic = 'abort'
+panic = 'abort' # diable stack unwinding on panic
+
+[[bin]]
+name = "blog_os"
+test = false
+bench = false
 
 [dependencies]
