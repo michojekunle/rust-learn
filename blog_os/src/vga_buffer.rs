@@ -93,11 +93,12 @@ impl Writer {
 }
 
 impl fmt::Write for Writer {
-    fn write_string(&mut self, s: &str) -> fmt::Result {
+    fn write_str(&mut self, s: &str) -> fmt::Result {
         self.write_string(s);
         Ok(())
     }
 }
+
 
 pub fn print_something() {
     use core::fmt::Write;
