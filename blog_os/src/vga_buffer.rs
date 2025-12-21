@@ -1,6 +1,6 @@
 #[allow(dead_code)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[repr(u8)]
+// #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+// #[repr(u8)]
 
 use volatile::Volatile;
 use core::fmt;
@@ -111,7 +111,7 @@ pub fn print_something() {
 
     writer.write_byte(b'H');
     writer.write_string("ello ");
-    writer.write_string("World!!")
+    writer.write_string("World!!");
 
     write!(writer, "The numbers are {} and {}", 42, 1.0/3.0).unwrap();
 }
