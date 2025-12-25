@@ -4,6 +4,16 @@
 
 use volatile::Volatile;
 use core::fmt;
+use lazy_static::lazy_static;
+use spin::Mutex;
+
+lazy_static! {
+    pub static ref WRITER: Mutex<Writer> = Mutex::new(Writer {
+        column_position: 0,
+        color_code: ColorCode::new(Color::Yellow, Color::Black),
+        buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
+    });
+}
 
 pub enum Color {
     Black = 0,
@@ -55,6 +65,12 @@ pub struct Writer {
     buffer: &'static mut Buffer,
 }
 
+pub static WRITER: Writer = Writer {
+    column_position: 0,
+    color_code: ColorCode::new(Color::Yellow, Color::Black),
+    buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
+};
+
 impl Writer {
     pub fn write_byte(&mut self, byte: u8) {
         match byte {
@@ -89,7 +105,26 @@ impl Writer {
         }
     }
 
-    fn new_line(&mut self) { /* TODO */ }
+    fn new_line(&mut self) { 
+        for row in 1..BUFFER_HEIGHT {
+            for col in 0..BUFFER_WIDTH {
+                let character = self.buffer.chars[row][col].read();
+                self.buffer.chars[row - 1][col].write(character);
+            }
+        }
+        self.clear_row(BUFFER_HEIGHT - 1);
+        self.column_position = 0;
+     }
+
+    fn clear_row(&mut self) { 
+        let blank = ScreenChar {
+            ascii_character: b' ',
+            color_code: self.color_code,
+        };
+        for col in 0..BUFFER_WIDTH {
+            self.buffer.shars[row][col].write(blank);
+        }
+     }
 }
 
 impl fmt::Write for Writer {
