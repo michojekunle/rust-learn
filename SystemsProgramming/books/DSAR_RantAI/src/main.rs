@@ -1,5 +1,5 @@
 mod ch_01;
-use ch_01::{gcd::gcd, sieve::sieve, turing_machine::{}};
+use ch_01::{gcd::gcd, sieve::sieve};
 
 fn main() {
     println!("Hello, world!");
