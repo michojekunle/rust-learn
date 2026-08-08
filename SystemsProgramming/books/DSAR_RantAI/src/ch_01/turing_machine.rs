@@ -77,10 +77,6 @@ impl TuringMachine {
         Ok(())
     }
 
-    fn result(&mut self) -> String {
-        todo!()
-    }
-
     fn tape_as_string(&self) -> String {
         self.tape.iter().collect()
     }
