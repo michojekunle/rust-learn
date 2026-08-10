@@ -237,5 +237,5 @@ The second, and more serious, bug was in my `GKRVerifier`. I had not implemented
 
 I fixed this by evaluating the claims at each layer, generating the random challenges, and checking that the evaluations were consistent between the current layer and the previous layer's polynomials at every step. The verification then continues through the circuit until the final input evaluation, where the result is checked against the expected computation.
 
-This made the verifier actually enforce the consistency of the prover's claims throughout the GKR protocol rather than simply accepting the proof without sufficiently validating each step. [MY GKR IMPL](https://github.com/michojekunle/zk/gkr)
+This made the verifier actually enforce the consistency of the prover's claims throughout the GKR protocol rather than simply accepting the proof without sufficiently validating each step. [MY GKR IMPL](https://github.com/michojekunle/zk/tree/main/gkr)
 
