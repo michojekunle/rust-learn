@@ -1,9 +1,11 @@
-# Chapter 1 
+# Chapter 1
+
 Heyyy
 
 Here, I will be documenting my learning progress and the challenges I take daily
 
 ## Day 3
+
 Did more on learning about The Turing Machine, understanding and imlementing the turing machine model in rust, it was a bit challenging as I was trying to understand translating the mental model from maths or visual abstraction into a working algorithm in rust, it was fun, getting back to practicing so many basics I haven't done in a while, vector manipulations, traits, methods, enums, hashmaps, and testing e.t.c. (I encountered an overflow error 😅, causing a test to fail for something I couldn't immediately notice).
 
 And earlier, I prioritized understanding code structuring and organization, utilizing rust builtins module system, and reorganized my code from yesterday into modules and writing now individual units tests within each unit of code.
@@ -11,7 +13,6 @@ And earlier, I prioritized understanding code structuring and organization, util
 Also, did some other deep dive into some resources learning about Unsafe Rust and Inner Mutability from a talk on [Advanced Rust Programming Techniques](https://www.youtube.com/watch?v=QQzAWxYKPSE) given by Florian Glitcher, as he also broke down essentially Rust has 2 main contsructs Data Structures (Which are just two, the Struct and Enum) and Functions in many forms and ways.
 
 Pretty much all for the day. Check out my [turing-machine.rs](./turing_machine.rs) implementation.
-
 
 ## Day 4 — Data Structures, Graphs & GKR
 
@@ -42,20 +43,20 @@ Unlike arrays or `Vec`, the elements do not need to be stored next to each other
 
 I understood three common types:
 
-* **Singly Linked List:** each node points in one direction to the next node.
-* **Doubly Linked List:** each node can point both forward and backward.
-* **Circular Linked List:** the final node points back to the beginning. This can also be singly or doubly linked.
+- **Singly Linked List:** each node points in one direction to the next node.
+- **Doubly Linked List:** each node can point both forward and backward.
+- **Circular Linked List:** the final node points back to the beginning. This can also be singly or doubly linked.
 
 ### Linked List Operations
 
 Some of the common operations are:
 
-* Traversal
-* Search
-* Insertion
-* Removal
-* Appending
-* Prepending
+- Traversal
+- Search
+- Insertion
+- Removal
+- Appending
+- Prepending
 
 The main tradeoff I took away is that Linked Lists are useful when we need efficient insertion or removal at a known position, but they are not good for random access or searching because we generally have to traverse the list.
 
@@ -84,14 +85,14 @@ struct Node<T> {
 
 This introduced some important Rust concepts:
 
-* `struct`
-* `enum`
-* `Option`
-* `Box`
-* ownership
-* borrowing
-* heap allocation
-* recursive data structures
+- `struct`
+- `enum`
+- `Option`
+- `Box`
+- ownership
+- borrowing
+- heap allocation
+- recursive data structures
 
 `Box` is important because a node contains another node recursively. Rust needs the size of a type to be known, so we cannot simply have a node directly contain another `Node`. `Box` gives us an owned pointer to the next node.
 
@@ -239,3 +240,50 @@ I fixed this by evaluating the claims at each layer, generating the random chall
 
 This made the verifier actually enforce the consistency of the prover's claims throughout the GKR protocol rather than simply accepting the proof without sufficiently validating each step. [MY GKR IMPL](https://github.com/michojekunle/zk/tree/main/gkr)
 
+## Day 5 - Singly-linked lists and undirected Graph impl, KZG Fix.
+
+### KZG Fix (MSB, LSB, battle for sovereingty)
+
+Today, I focused on fixing my kzg protocol implementation, the test were failing intially showing invalid proof verification and it was all becuase of a tiny bug in my kzg verifier, how I was generating my proof(i.e computing my quotient remainder), different from how I was generating trusted setup as in here in my prover:
+
+```
+ let (mut quotient, remainder) = dividend.compute_quotient_remainder(opening, dividend.n_vars - 1);
+```
+
+starting with the MSB(most significant bit; 2 in this case for three variables) (i.e `dividend.n_vars - 1`), different from my trusted_setup.rs implementation which did:
+
+```
+for j in 0..n {
+    let bit = (i >> j) & 1; // starting with the LSB (least significant bit 0 in this case as j starts from 0)
+    if bit == 1 { product *= taus[j]; }
+    else { product *= F::one() - taus[j]; }
+}
+```
+
+so the right archtitectural straightforward fix was to change my trusted_setup.rs implementation to match and start from the MSB as is now:
+
+```
+for j in 0..n {
+    let bit = (i >> (n - 1 - j)) & 1; // now starting from the MSB in this case 2 as n is 3 (incrementally reducing as j increases)
+    if bit == 1 {
+        product *= taus[j];
+    } else {
+        product *= F::one() - taus[j];
+    }
+}
+```
+
+and that was it, my test ran and were passing successfully.
+
+Check my kzg implementation here: [MY KZG IMPL](https://github.com/michojekunle/zk/tree/main/kzg) 
+
+### Singly-linked lists and undirected Graph impl
+Secondly, from learning about Linkedlists and graphs yesterday day 4, I continued with actually implementing them.
+
+I implemented a basic singly-linked list, with push, pop, and search functionalities.
+
+Check my linkedlist implementation here: [linked_list.rs](./linked_list.rs)
+
+Also, I implemented the graph, an undirected graph using adjancency lists, I implemented adding and removing edges and vertices, as well as traversing through the graph using breadth first search and depth first search algorithms, got to learn about using VecDeque for FIFO like data structures specific for the BFS implementation.
+
+Check my undirected graph implementation here: [graph.rs](./graph.rs)
