@@ -3,4 +3,13 @@ name = "DSAR_RantAI"
 version = "0.1.0"
 edition = "2024"
 
-[dependencies]
+[dev-dependencies]
+criterion = "0.8.2"
+
+[[bench]]
+name = "graph"
+harness = false
+
+[[bench]]
+name = "linked_list"
+harness = false

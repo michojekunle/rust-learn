@@ -6,17 +6,17 @@ pub struct UndirectedGraph {
 }
 
 impl UndirectedGraph {
-    fn new() -> Self {
+    pub fn new() -> Self {
         Self {
             list: HashMap::new(),
         }
     }
 
-    fn add_vertex(&mut self, u: char) {
+    pub fn add_vertex(&mut self, u: char) {
         self.list.entry(u).or_insert(Vec::new());
     }
 
-    fn add_edge(&mut self, (u, v): (char, char)) {
+    pub fn add_edge(&mut self, (u, v): (char, char)) {
         self._add_edge_x((u, v));
         self._add_edge_x((v, u));
     }
@@ -48,17 +48,17 @@ impl UndirectedGraph {
         }
     }
 
-    fn has_edge(&self, (u, v): (char, char)) -> bool {
+    pub fn has_edge(&self, (u, v): (char, char)) -> bool {
         match self.list.get(&u) {
             None => false,
             Some(edges) => edges.contains(&v),
         }
     }
 
-    fn dfs(&self, u: char) -> Vec<char> {
+    pub fn dfs(&self, u: char) -> Vec<char> {
         let mut agenda: Vec<char> = Vec::new();
         agenda.push(u);
-        
+
         let mut visited: HashSet<char> = HashSet::new();
         let mut result: Vec<char> = Vec::new();
 
@@ -81,7 +81,7 @@ impl UndirectedGraph {
         result
     }
 
-    fn bfs(&self, u: char) -> Vec<char> {
+    pub fn bfs(&self, u: char) -> Vec<char> {
         let mut agenda: VecDeque<char> = VecDeque::new();
         agenda.push_back(u);
 

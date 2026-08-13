@@ -18,14 +18,14 @@ pub struct Node {
 }
 
 impl List {
-    fn new() -> Self {
+    pub fn new() -> Self {
         Self {
             head: Link::Empty,
             size: 0,
         }
     }
 
-    fn push(&mut self, elem: i32) {
+    pub fn push(&mut self, elem: i32) {
         let new_node = Box::new(Node {
             elem,
             next: mem::replace(&mut self.head, Link::Empty),
@@ -35,7 +35,7 @@ impl List {
         self.size += 1;
     }
 
-    fn pop(&mut self) -> Option<i32> {
+    pub fn pop(&mut self) -> Option<i32> {
         match mem::replace(&mut self.head, Link::Empty) {
             Link::Empty => return None,
             Link::More(node) => {
@@ -46,7 +46,7 @@ impl List {
         }
     }
 
-    fn search(&self, value: i32) -> isize {
+    pub fn search(&self, value: i32) -> isize {
         let mut i = 0;
         let mut current = &self.head;
 
