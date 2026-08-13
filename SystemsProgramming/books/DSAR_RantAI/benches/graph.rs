@@ -7,47 +7,79 @@ const ALPHABET: [char; 26] = [
     'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 ];
 
-fn setup(edges: usize) -> UndirectedGraph {
+#[derive(Clone, Copy)]
+enum Density {
+    Sparse,
+    Medium,
+    Dense,
+}
+
+impl Density {
+    fn name(self) -> &'static str {
+        match self {
+            Density::Sparse => "sparse",
+            Density::Medium => "medium",
+            Density::Dense => "dense",
+        }
+    }
+}
+
+fn setup(vertices: usize, density: Density) -> UndirectedGraph {
     let mut graph = UndirectedGraph::new();
 
-    for vertex in ALPHABET {
-        graph.add_vertex(vertex);
+    for vertex in 0..vertices {
+        graph.add_vertex(char::from_u32(vertex as u32).unwrap());
     }
 
-    let max_edges = ALPHABET.len() * (ALPHABET.len() - 1) / 2;
-    assert!(
-        edges <= max_edges,
-        "an alphabet graph supports at most {max_edges} unique undirected edges"
-    );
+    let max_edges = vertices * (vertices -1) / 2;
 
-    let mut added_edges = 0;
-    for (index, &from) in ALPHABET.iter().enumerate() {
-        for &to in &ALPHABET[index + 1..] {
-            if added_edges == edges {
-                return graph;
+    let target_edges = match density {
+        Density::Sparse => vertices.saturating_sub(1),
+        Density::Medium => (2 * vertices).min(max_edges),
+        Density::Dense => max_edges / 4
+    };
+
+    for vertex in 1..=vertices {
+        graph.add_edge((char::from_u32((vertex - 1) as u32).unwrap(), char::from_u32(vertex as u32).unwrap()));
+    }
+
+    let mut edges_added = vertices.saturating_sub(1);
+
+    'outer: for from in 0..vertices {
+        for to in (from + 1)..vertices {
+            if edges_added >= target_edges {
+                break 'outer;
             }
-            graph.add_edge((from, to));
-            added_edges += 1;
+
+            if to == from + 1 {
+                continue
+            }
+
+            graph.add_edge((char::from_u32(from as u32).unwrap(), char::from_u32(to as u32).unwrap()));
+            edges_added += 1;
         }
     }
 
     graph
 }
 
-fn benchmark_graph(c: &mut Criterion, edges: usize) {
-    let graph = setup(edges);
+fn benchmark_graph(c: &mut Criterion, vertices: usize, density: Density) {
+    let graph = setup(vertices, density);
+    let density_name = density.name();
 
-    c.bench_function(&format!("graph.dfs/{} edges", edges), |b| {
-        b.iter(|| black_box(graph.dfs('A')))
+    c.bench_function(&format!("graph/{density_name}/dfs/{vertices} vertices"), |b| {
+        b.iter(|| black_box(graph.dfs('0')))
     });
-    c.bench_function(&format!("graph.bfs/{} edges", edges), |b| {
-        b.iter(|| black_box(graph.bfs('A')))
+    c.bench_function(&format!("graph/{density_name}/bfs/{vertices} vertices"), |b| {
+        b.iter(|| black_box(graph.bfs('0')))
     });
 }
 
 fn graph_benchmarks(c: &mut Criterion) {
-    for edges in [100, 200, 300, 325] {
-        benchmark_graph(c, edges);
+    for vertices in [10, 100, 200, 300, 500, 1000] {
+        benchmark_graph(c, vertices, Density::Sparse);
+        benchmark_graph(c, vertices, Density::Medium);
+        benchmark_graph(c, vertices, Density::Dense);
     }
 }
 
