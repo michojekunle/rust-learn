@@ -287,3 +287,33 @@ Check my linkedlist implementation here: [linked_list.rs](./linked_list.rs)
 Also, I implemented the graph, an undirected graph using adjancency lists, I implemented adding and removing edges and vertices, as well as traversing through the graph using breadth first search and depth first search algorithms, got to learn about using VecDeque for FIFO like data structures specific for the BFS implementation.
 
 Check my undirected graph implementation here: [graph.rs](./graph.rs)
+
+## Day 6 — Criterion Benchmarks
+
+Today, I focused on benchmarking the implementations I've been working on using Criterion, to actually see how they perform as the input size increases.
+
+### KZG
+
+I benchmarked commitment, proving, and verification across 3 → 8 variables, making sure the polynomial evaluations, trusted setup and opening points matched the number of variables.
+
+The results showed the expected increase in runtime as the number of variables increased.
+
+### GKR
+
+I improved my GKR benchmark to test:
+
+`8 → 16 → 32 → 64 → 128 → 256 inputs`
+
+I generate the proof beforehand and verify it first to make sure I'm benchmarking a valid proof. I then benchmark the prover and verifier with fresh circuits and Fiat-Shamir transcripts for each iteration.
+
+The current benchmark is more of an end-to-end benchmark, since circuit construction and transcript initialization happen inside the measured iteration.
+
+## LinkedList + Graph
+
+I also benchmarked search on my singly-linked list across increasing list sizes, and BFS/DFS on my undirected graph while varying the graph size and density.
+
+The main goal was to see the theoretical time complexities I've been learning about actually show up in the runtime.
+
+`Implemented → tested → benchmarked.`
+
+Day 6 done. 🦀
