@@ -317,3 +317,15 @@ The main goal was to see the theoretical time complexities I've been learning ab
 `Implemented → tested → benchmarked.`
 
 Day 6 done. 🦀
+
+## Day 7 - Review Day
+
+Today was mainly a review of everything I worked on this week.
+
+I went from getting back into Rust project structure and modules, to understanding and implementing Turing Machines, LinkedLists and Graphs, then fixing and benchmarking my GKR and KZG implementations.
+
+The biggest thing that stood out was the difference between understanding a concept mentally and actually translating it into working Rust. There were quite a few moments where the implementation forced me to understand the concept more deeply.
+
+I also reviewed what is still unfinished, especially more rigorous testing, benchmark analysis and continuing through DSAR.
+
+For the next two weeks, I'll be continuing DSAR by RantAI and starting a new systems-level project: writing a memory allocator in Rust. 🦀
