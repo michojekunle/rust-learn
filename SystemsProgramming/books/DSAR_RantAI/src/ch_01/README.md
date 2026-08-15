@@ -329,3 +329,5 @@ The biggest thing that stood out was the difference between understanding a conc
 I also reviewed what is still unfinished, especially more rigorous testing, benchmark analysis and continuing through DSAR.
 
 For the next two weeks, I'll be continuing DSAR by RantAI and starting a new systems-level project: writing a memory allocator in Rust. 🦀
+
+## Day 8 - Ethical Research + Memory Allocator Understanding base models
