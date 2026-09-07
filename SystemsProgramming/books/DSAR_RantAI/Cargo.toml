@@ -13,3 +13,10 @@ harness = false
 [[bench]]
 name = "linked_list"
 harness = false
+
+[[bench]]
+name = "quicksorts"
+harness = false
+
+[dependencies]
+rayon = "1.12.0"

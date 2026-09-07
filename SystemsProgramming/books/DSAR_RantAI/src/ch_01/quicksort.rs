@@ -3,7 +3,7 @@ pub fn quick_sort(arr: Vec<usize>) -> Vec<usize> {
         return arr;
     }
 
-    let pivot = arr[arr.len() - 1_usize];
+    let pivot = arr[(arr.len()/2) as usize];
     let mut left = vec![];
     let mut middle = vec![];
     let mut right = vec![];
