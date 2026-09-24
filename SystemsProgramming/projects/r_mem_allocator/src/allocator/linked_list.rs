@@ -59,8 +59,3 @@ impl LinkedListAllocator {
         }
     }
 }
-
-https://job-boards.greenhouse.io/k2spacecorporation/jobs/5165724008
-
-"https://www.comeet.com/jobs/metalbear/8A.002/backend-software-engineer-rust-fully-remote/1C.176"
-
