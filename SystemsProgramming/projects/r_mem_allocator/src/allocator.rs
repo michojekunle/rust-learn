@@ -1,12 +1,16 @@
 pub mod bump;
-pub mod linked_list;
 pub mod freelist;
-use std::sync::{Mutex, MutexGuard};
+pub mod linked_list;
+use spin::{Mutex, MutexGuard};
 
 use bump::BumpAllocator;
+use linked_list::LinkedListAllocator;
 
 // #[global_allocator]
 // static ALLOCATOR: Locked<BumpAllocator> = Locked::new(BumpAllocator::new());
+
+// #[global_allocator]
+// static ALLOCATOR: Locked<LinkedListAllocator> = Locked::new(LinkedListAllocator::new());
 
 pub struct Locked<A> {
     inner: Mutex<A>,
@@ -20,7 +24,7 @@ impl<A> Locked<A> {
     }
 
     pub fn lock(&self) -> MutexGuard<'_, A> {
-        self.inner.lock().unwrap()
+        self.inner.lock()
     }
 }
 
